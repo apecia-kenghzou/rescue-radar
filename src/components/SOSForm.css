@@ -1,0 +1,226 @@
+.sos-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: var(--space-lg);
+}
+
+.sos-form-card {
+    padding: var(--space-2xl);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+}
+
+.emergency-icon {
+    font-size: 4rem;
+    margin-bottom: var(--space-md);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.form-header h2 {
+    margin-bottom: var(--space-sm);
+    background: linear-gradient(135deg, var(--color-danger) 0%, var(--color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.sos-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+/* Location Section */
+.location-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.location-loading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    color: var(--color-primary);
+}
+
+.location-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md);
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--color-success);
+    border-radius: var(--radius-md);
+}
+
+.location-info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.location-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: var(--color-success);
+    color: white;
+    border-radius: 50%;
+    font-size: var(--font-size-sm);
+    font-weight: bold;
+}
+
+.location-text {
+    color: var(--color-success);
+    font-weight: 600;
+    font-family: monospace;
+}
+
+.location-actions {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.location-actions .btn {
+    flex: 1;
+    min-width: 200px;
+}
+
+.location-error {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md);
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid var(--color-warning);
+    border-radius: var(--radius-md);
+    color: var(--color-warning);
+    font-size: var(--font-size-sm);
+    gap: var(--space-md);
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    margin-top: var(--space-md);
+    font-size: var(--font-size-lg);
+    padding: var(--space-lg) var(--space-2xl);
+}
+
+.form-footer-text {
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-top: var(--space-md);
+    margin-bottom: 0;
+}
+
+/* Success Card */
+.success-card {
+    padding: var(--space-3xl);
+    text-align: center;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+    border: 2px solid var(--color-success);
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--space-xl);
+    background: var(--color-success);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: bold;
+    animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.success-card h2 {
+    color: var(--color-success);
+    margin-bottom: var(--space-md);
+}
+
+.success-card p {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.success-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+}
+
+.detail-label {
+    font-weight: 600;
+    color: var(--color-text-secondary);
+}
+
+.detail-value {
+    font-family: monospace;
+    color: var(--color-text-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sos-form-card {
+        padding: var(--space-xl);
+    }
+
+    .location-actions {
+        flex-direction: column;
+    }
+
+    .location-actions .btn {
+        width: 100%;
+    }
+
+    .location-error {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .detail-item {
+        flex-direction: column;
+        gap: var(--space-sm);
+        text-align: center;
+    }
+}

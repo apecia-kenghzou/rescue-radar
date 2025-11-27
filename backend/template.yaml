@@ -1,0 +1,141 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Disaster Relief SOS Backend
+  Serverless architecture with API Gateway, Lambda, DynamoDB, and WAF.
+
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 128
+    Runtime: nodejs18.x
+    Architectures:
+      - arm64
+    Environment:
+      Variables:
+        TABLE_NAME: !Ref SOSSubmissionsTable
+
+Resources:
+  # DynamoDB Table
+  SOSSubmissionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: SOSSubmissions
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
+
+  # API Gateway (HTTP API)
+  HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins:
+          - "*"
+        AllowMethods:
+          - GET
+          - POST
+          - OPTIONS
+        AllowHeaders:
+          - Content-Type
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 100
+        ThrottlingRateLimit: 50
+
+  # WAF Web ACL (Firewall)
+  WebACL:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      Name: SOSApiFirewall
+      Scope: REGIONAL
+      DefaultAction:
+        Allow: {}
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: SOSApiFirewallMetric
+      Rules:
+        # Rate Limit Rule: Limit requests from single IP
+        - Name: RateLimitRule
+          Priority: 1
+          Action:
+            Block: {}
+          Statement:
+            RateBasedStatement:
+              Limit: 500 # Requests per 5 minutes
+              AggregateKeyType: IP
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: RateLimitMetric
+  
+  # Associate WAF with API Gateway
+  WebACLAssociation:
+    Type: AWS::WAFv2::WebACLAssociation
+    Properties:
+      ResourceArn: !Sub "arn:aws:apigateway:${AWS::Region}::/restapis/${HttpApi}/stages/$default" 
+      WebACLArn: !GetAtt WebACL.Arn
+
+  # Lambda Functions
+  SubmitSOSFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/submit-sos.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref SOSSubmissionsTable
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /sos
+            Method: POST
+
+  GetSOSFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/get-sos.handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref SOSSubmissionsTable
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /sos
+            Method: GET
+
+  ResolveSOSFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/resolve-sos.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref SOSSubmissionsTable
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /sos/{id}/resolve
+            Method: POST
+
+Outputs:
+  ApiEndpoint:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com"
+  SubmitSOSFunction:
+    Description: "Submit SOS Lambda Function ARN"
+    Value: !GetAtt SubmitSOSFunction.Arn
+  GetSOSFunction:
+    Description: "Get SOS Lambda Function ARN"
+    Value: !GetAtt GetSOSFunction.Arn
