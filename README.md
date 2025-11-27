@@ -1,6 +1,6 @@
-# DisasterLink - Emergency Response Platform 🆘
+# Rescue Radar - Emergency Response Platform 🆘
 
-**DisasterLink** is a community-driven emergency response platform designed to connect people in need with those who can help during natural disasters. It features a simple SOS submission form and an interactive map for responders.
+**Rescue Radar** is a community-driven emergency response platform designed to connect people in need with those who can help during natural disasters. It features a simple SOS submission form and an interactive map for responders.
 
 ## 🌍 Mission & Call for Hosting
 
