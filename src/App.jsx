@@ -33,7 +33,7 @@ function MainApp() {
             <div className="logo-section">
               <img src="/logo.png" alt="DisasterLink Logo" className="logo-img" />
               <div className="logo-text">
-                <h1>DisasterLink</h1>
+                <h1>Rescue Radar</h1>
                 <p className="tagline">Connecting help when it matters most</p>
               </div>
             </div>
@@ -134,7 +134,7 @@ function MainApp() {
       <footer className="app-footer">
         <div className="container">
           <p>
-            DisasterLink - Emergency Response Platform |
+            Rescue Radar - Emergency Response Platform |
             Built with ❤️ for humanity
           </p>
         </div>
