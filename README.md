@@ -2,6 +2,12 @@
 
 **Rescue Radar** is a community-driven emergency response platform designed to connect people in need with those who can help during natural disasters. It features a simple SOS submission form and an interactive map for responders.
 
+## 📸 Screenshots
+
+![Rescue Radar Home Screenshot](public/screenshots/home.png)
+
+![Rescue Radar Map View](public/screenshots/rescue_radar_map_view.png)
+
 ## 🌍 Mission & Call for Hosting
 
 **This project is built to help the public.** In times of crisis, communication is key. We have built this open-source solution to provide a rapid deployment tool for disaster relief.
